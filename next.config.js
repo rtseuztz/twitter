@@ -4,6 +4,7 @@ const nextConfig = {
   swcMinify: false,
   optimization: {
     minimize: false,
+    minimizer: false,
   },
 };
 

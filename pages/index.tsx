@@ -15,12 +15,9 @@ export default function Home() {
     async function fetchData() {
       const res = await fetch("api/tweets", {
         method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
       });
-
       const data = await res.json();
+      console.log("data: ");
       console.log(data);
       setTweets(data);
     }
