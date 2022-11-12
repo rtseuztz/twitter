@@ -1,8 +1,20 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
+import Hello from './hello'
+import { useEffect, useState } from 'react'
 
 export default function Home() {
+  const [data, setData] = useState<{ name: string }>({ name: "" });
+  useEffect(() => {
+    async function fetchData() {
+      const res = await fetch("api/hello");
+      const data = await res.json();
+      console.log(data);
+      setData(data);
+    }
+    fetchData();
+  }, []);
   return (
     <div className={styles.container}>
       <Head>
@@ -13,7 +25,7 @@ export default function Home() {
 
       <main className={styles.main}>
         <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
+          Welcome, {data.name}, to <a href="https://nextjs.org">Next.js!</a>
         </h1>
 
         <p className={styles.description}>
