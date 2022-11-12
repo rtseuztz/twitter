@@ -38,9 +38,9 @@ export default function Home() {
         method: "POST",
         body: JSON.stringify({ tweet: tweet, user: name }),
       });
-      const data = await fetchData.json();
+      const data: tweet[] = await fetchData.json();
       console.log(data);
-      setTweets([...tweets, data]);
+      setTweets([...tweets, data[0]]);
     }
   }
 
