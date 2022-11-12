@@ -3,10 +3,14 @@ import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import { ChangeEvent, useEffect, useState } from 'react'
 
+export type tweet = {
+  tweet: string,
+  user: string
+}
 export default function Home() {
   const [name, setName] = useState<string>("");
   const [data, setData] = useState<{ name: string }>({ name: "" });
-  const [tweets, setTweets] = useState<string[]>([]);
+  const [tweets, setTweets] = useState<tweet[]>([]);
   useEffect(() => {
     async function fetchData() {
       const res = await fetch("api/tweets", {
@@ -36,7 +40,7 @@ export default function Home() {
       });
       const data = await fetchData.json();
       console.log(data);
-      setTweets([...tweets, tweet]);
+      setTweets([...tweets, data]);
     }
   }
 
@@ -54,7 +58,14 @@ export default function Home() {
             <div>
               <h1>Hello {name}</h1>
               <div id='tweets'>
-                {tweets.map((tweet, index) => <div key={index}>{tweet}</div>)}
+                {tweets.map((tweet, index) => {
+                  return (
+                    <div key={index} className={styles.tweet}>
+                      <h3>{tweet.user}</h3>
+                      <p>: {tweet.tweet}</p>
+                    </div>
+                  )
+                })}
               </div>
               <div id='post-box'>
                 <input id='post-text' placeholder='What are you thinking?' onKeyDown={handleTweetKeyDown}></input>

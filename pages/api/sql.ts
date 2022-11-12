@@ -9,7 +9,7 @@ const connection = mysql.createConnection({
     database: process.env.MYSQL_ENV_MYSQL_DATABASE,
 });
 
-export default async function query(query: string): Promise<any> {
+export default async function query(query: string) {
     try {
         connection.query(query, function (err: any, results: any, fields: any) {
             if (err) {
@@ -17,7 +17,6 @@ export default async function query(query: string): Promise<any> {
                 return null;
             }
             console.log(results);
-            console.log(fields);
             return results;
         });
     } catch (err) {

@@ -13,6 +13,8 @@ export default async function handler(
     switch (method) {
         case 'GET':
             const rows = await query("SELECT * FROM tweets");
+            console.log("rows");
+            console.log(rows);
             res.status(200).json(rows);
             return;
         case 'POST':
