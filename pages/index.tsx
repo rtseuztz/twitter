@@ -9,8 +9,15 @@ export default function Home() {
   const [tweets, setTweets] = useState<string[]>([]);
   useEffect(() => {
     async function fetchData() {
-      const res = await fetch("api/tweets");
+      const res = await fetch("api/tweets", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
       const data = await res.json();
+      console.log(data);
       setTweets(data);
     }
     fetchData();
@@ -23,10 +30,12 @@ export default function Home() {
   const handleTweetKeyDown = async (event: any) => {
     if (event.key === 'Enter') {
       const tweet = event.target.value;
-      await fetch("api/tweet", {
+      const fetchData = await fetch("api/tweets", {
         method: "POST",
-        body: JSON.stringify({ tweet }),
+        body: JSON.stringify({ tweet: tweet, user: name }),
       });
+      const data = await fetchData.json();
+      console.log(data);
       setTweets([...tweets, tweet]);
     }
   }
