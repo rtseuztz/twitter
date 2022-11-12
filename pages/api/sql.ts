@@ -9,7 +9,7 @@ const connection = mysql.createConnection({
     database: process.env.MYSQL_ENV_MYSQL_DATABASE,
 });
 
-export default async function query(query: string) {
+export default async function query(query: string): Promise<any> {
     try {
         connection.query(query, function (err: any, results: any, fields: any) {
             if (err) {
