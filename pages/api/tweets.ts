@@ -10,7 +10,6 @@ export default async function handler(
     res: NextApiResponse<[Data] | null>
 ) {
     const method = req.method;
-    console.log(JSON.parse(req.body).user);
     switch (method) {
         case 'GET':
             const rows = await query("SELECT * FROM tweets");
