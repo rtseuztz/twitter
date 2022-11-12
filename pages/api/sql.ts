@@ -1,6 +1,6 @@
-const mariadb = require("mariadb");
+const mysql = require("mysql2");
 // set up a mariadb connection pool
-const pool = mariadb.createPool({
+const pool = mysql.createPool({
     host: "mysql",
     port: "3306",
     dialect: "mysql",
