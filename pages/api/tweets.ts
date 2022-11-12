@@ -13,11 +13,13 @@ export default async function handler(
     switch (method) {
         case 'GET':
             const rows = await query("SELECT * FROM tweets");
-            return rows;
+            res.status(200).json(rows);
+            return;
         case 'POST':
             const body: Data = JSON.parse(req.body);
             await query("INSERT INTO tweets (user, tweet) VALUES ('" + body.user + "', '" + body.tweet + "')");
-            return res.status(200).json([{ user: body.user, tweet: body.tweet }]);
+            res.status(200).json([{ user: body.user, tweet: body.tweet }]);
+            return;
         // case 'DELETE':
         //     await query("DELETE FROM tweets WHERE id = " + req.body.id);
         //     return res.status(200).json([{ user: body.user, tweet: body.tweet }]);
