@@ -1,21 +1,25 @@
-const mysql = require("mysql");
+const mysql = require("mysql2");
 
 // set up a mysql connection pool
-const pool = mysql.createPool({
+const connection = mysql.createConnection({
     host: "mysql",
     port: "3306",
-    dialect: "mysql",
     user: 'root',
     password: process.env.MYSQL_ENV_MYSQL_PASSWORD,
     database: process.env.MYSQL_ENV_MYSQL_DATABASE,
 });
 
 export default async function query(query: string) {
-    let conn;
     try {
-        conn = await pool.getConnection();
-        const rows = await conn.query(query)
-        return rows;
+        connection.query(query, function (err: any, results: any, fields: any) {
+            if (err) {
+                console.log(err);
+                return null;
+            }
+            console.log(results);
+            console.log(fields);
+            return results;
+        });
     } catch (err) {
         return {}
     }
