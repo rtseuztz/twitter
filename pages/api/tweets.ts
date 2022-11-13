@@ -1,13 +1,13 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import query from './sql';
 
-type Data = {
+export type tweet = {
     user: string
     tweet: string
 }
 export default async function handler(
     req: NextApiRequest,
-    res: NextApiResponse<[Data] | null>
+    res: NextApiResponse<tweet[] | null>
 ) {
     const method = req.method;
     switch (method) {
@@ -18,7 +18,7 @@ export default async function handler(
             res.status(200).json(rows);
             return;
         case 'POST':
-            const body: Data = JSON.parse(req.body);
+            const body: tweet = JSON.parse(req.body);
             await query("INSERT INTO tweets (user, tweet) VALUES ('" + body.user + "', '" + body.tweet + "')");
             res.status(200).json([{ user: body.user, tweet: body.tweet }]);
             return;
