@@ -1,11 +1,11 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
-import { ChangeEvent, useEffect, useState } from 'react'
+import { ChangeEvent, EventHandler, MouseEventHandler, useEffect, useState } from 'react'
 
 export type tweet = {
   tweet: string,
-  user: string
+  user: string,
 }
 export default function Home() {
   const [name, setName] = useState<string>("");
@@ -40,6 +40,21 @@ export default function Home() {
       setTweets([...tweets, data[0]]);
     }
   }
+  const handleDelete = async (event: any) => {
+    const data = event.target.dataset as tweet
+    const tweet = data.tweet;
+    const user = data.user;
+    // const del = await (fetch("api/tweets", {
+    //   method: "DELETE",
+    //   body: JSON.stringify({
+    //     tweet: tweet,
+    //     user: user
+    //   })
+    // }))
+    const temps = tweets.filter(t => !(t.tweet == tweet && t.user == user))
+    setTweets(temps)
+    console.log(tweet);
+  }
 
   return (
     <div className={styles.container}>
@@ -49,33 +64,32 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className={styles.main}>
-        <>
-          {name ?
-            <div>
-              <h1>Hello {name}</h1>
-              <div id='tweets'>
-                {tweets.map((tweet, index) => {
-                  return (
-                    <div key={index} className={styles.tweet}>
-                      <h3>{tweet.user}</h3>
-                      <p>: {tweet.tweet}</p>
-                    </div>
-                  )
-                })}
-              </div>
-              <div id='post-box'>
-                <input id='post-text' placeholder='What are you thinking?' onKeyDown={handleTweetKeyDown}></input>
-              </div>
+      <>
+        {name ?
+          <div className={styles.home}>
+            <h1>Hello {name}</h1>
+            <div id='tweets' className={styles.tweets}>
+              {tweets.map((tweet, index) => {
+                return (
+                  <div key={index} className={styles.tweet}>
+                    <h3>{tweet.user}</h3>
+                    <p className={styles.tweetBody}>: {tweet.tweet}</p>
+                    {tweet.user === name && <button data-user={tweet.user} data-tweet={tweet.tweet} onClick={(e: any) => handleDelete(e)}>Delete</button>}
+                  </div>
+                )
+              })}
             </div>
-            :
-            <div>
-              <label htmlFor="name_input">What is your name?</label>
-              <input id='name_input' onKeyDown={handleKeyDown}></input>
+            <div id='post-box' className={styles.postBox}>
+              <input id='post-text' placeholder='What are you thinking?' onKeyDown={handleTweetKeyDown}></input>
             </div>
-          }
-        </>
-      </main>
+          </div>
+          :
+          <div className={styles.main}>
+            <label htmlFor="name_input">What is your name?</label>
+            <input id='name_input' onKeyDown={handleKeyDown}></input>
+          </div>
+        }
+      </>
 
     </div>
   )
