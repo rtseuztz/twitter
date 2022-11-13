@@ -2,10 +2,19 @@
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: false,
-  optimization: {
-    minimize: false,
-    minimizer: false,
-  },
+  compress: false,
 };
 
-module.exports = nextConfig;
+module.exports = () => {
+  return {
+    ...nextConfig,
+    webpack(webpackConfig) {
+      return {
+        ...webpackConfig,
+        optimization: {
+          minimize: false,
+        },
+      };
+    },
+  };
+};
